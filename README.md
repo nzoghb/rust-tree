@@ -1,14 +1,11 @@
 # rust-tree
 Your favorite algorithms written in readable Rust.
 
-### TODO
+## TODO
 
-- Binary Tree
+**Binary Tree**
+
 - [x] Insert
-- [ ] Traversal
-- [ ] Balance
-- [ ] Unbalance
+- [x] Traversal
 - [ ] Search
-
-- Boolean Tree
-- [] Verify
+- [x] Iterate
