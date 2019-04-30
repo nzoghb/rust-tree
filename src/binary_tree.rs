@@ -198,7 +198,7 @@ struct NodeIterator<T> {
     branch_stack: Vec<Node<T>>,
 }
 
-impl<T> NodeIterator<T>
+impl<T: std::fmt::Display> NodeIterator<T>
 where
     Node<T>: Clone
 {
@@ -217,14 +217,16 @@ where
     /// branches to the `branch_stack` field.
     /// Set the current node to the left-most child.
     fn add_left_branches(&mut self, mut root: Node<T>) {
+        self.branch_stack.push(root.clone());
         while let Node { left: Some(left_branch), .. } = root.clone() {
-            self.branch_stack.push(root);
+            // println!("{}", root.clone().value);
             root = *left_branch;
+            self.branch_stack.push(root.clone());
         }
     }
 }
 
-impl<T> Iterator for NodeIterator<T>
+impl<T: std::fmt::Display> Iterator for NodeIterator<T>
 where
     Node<T>: Clone
 {
@@ -242,7 +244,7 @@ where
     }
 }
 
-impl<T> IntoIterator for Node<T>
+impl<T: std::fmt::Display> IntoIterator for Node<T>
 where
     Node<T>: Clone
 {
@@ -263,9 +265,12 @@ mod iter_tests {
         let mut tree = Node::new("hello");
         tree.insert("hi");
         tree.insert("bye");
+        tree.insert("hey");
         tree.insert("three");
         let mut iter = tree.clone().into_iter();
         println!("{:#?}", tree);
+        println!("{:?}", iter.next());
+        println!("{:?}", iter.next());
         println!("{:?}", iter.next());
         println!("{:?}", iter.next());
         println!("{:?}", iter.next());
