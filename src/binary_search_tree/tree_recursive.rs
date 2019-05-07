@@ -32,45 +32,51 @@ impl<T> Node<T> {
     /// Recursively do an idempotent insert.
     pub fn insert(&mut self, data: T)
     where
-        T: Default + PartialOrd
+        T: Default + Ord,
     {
-        if data == self.value { return }
-        if data < self.value {
-            match self.left {
-                Some(ref mut left_branch) => left_branch.insert(data),
-                None => self.left = Self::boxer(data),
-            }
-        } else {
-            match self.right {
-                Some(ref mut right_branch) => right_branch.insert(data),
-                None => self.right = Self::boxer(data),
-            }
+        match self.value.cmp(&data) {
+            Ordering::Equal => return,
+            Ordering::Greater => {
+                match self.left {
+                    Some(ref mut left_branch) => left_branch.insert(data),
+                    None => self.left = Self::boxer(data),
+                }
+            },
+            Ordering::Less => {
+                match self.right {
+                    Some(ref mut right_branch) => right_branch.insert(data),
+                    None => self.right = Self::boxer(data),
+                }
+            },
         }
     }
 
     /// Recursively search for whether value is present.
     pub fn search(&self, data: T) -> bool
     where
-        T: Default + PartialOrd
+        T: Default + Ord,
     {
-        if data == self.value { return true }
-        if data < self.value {
-            match self.left {
-                Some(ref left_branch) => left_branch.search(data),
-                None => false,
-            }
-        } else {
-            match self.right {
-                Some(ref right_branch) => right_branch.search(data),
-                None => false,
-            }
+        match self.value.cmp(&data) {
+            Ordering::Equal => true,
+            Ordering::Greater => {
+                match self.left {
+                    Some(ref left_branch) => left_branch.search(data),
+                    None => false,
+                }
+            },
+            Ordering::Less => {
+                match self.right {
+                    Some(ref right_branch) => right_branch.search(data),
+                    None => false,
+                }
+            },
         }
     }
 
     /// Recursively do an in-order traversal.
     pub fn visit(&self) -> Vec<T>
     where
-        T: Copy
+        T: Copy,
     {
         let mut result: Vec<T> = Vec::new();
         if let Some(ref left_child) = self.left {

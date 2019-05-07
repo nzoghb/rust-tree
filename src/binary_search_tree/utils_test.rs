@@ -1,6 +1,5 @@
 use super::tree::Node;
 
-// #[macro_use]
 #[macro_export]
 macro_rules! setup_test {
     (
@@ -9,7 +8,7 @@ macro_rules! setup_test {
         $($unbalanced_tree_base:ident)*,
         $($vec_base:ident)*
     ) => {
-        use binary_tree::utils_test::Utils;
+        use binary_search_tree::utils_test::Utils;
 
         let setup = Utils::new();
         $(let $root_base = setup.root_base;)*
