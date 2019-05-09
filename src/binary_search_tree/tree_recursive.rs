@@ -114,12 +114,18 @@ mod test {
 
     #[test]
     fn test_insert() {
-        setup_test!(root_base,balanced_tree_base,,);
-        let mut tree_test = root_base;
-        tree_test.insert(25);
-        tree_test.insert(75);
+        setup_test!(root_base,balanced_tree_base,unbalanced_tree_base,);
+        let mut balanced_tree_test = root_base.clone();
+        balanced_tree_test.insert(25);
+        balanced_tree_test.insert(75);
 
-        assert_eq!(balanced_tree_base, tree_test);
+        assert_eq!(balanced_tree_base, balanced_tree_test);
+
+        let mut unbalanced_tree_test = root_base;
+        unbalanced_tree_test.insert(25);
+        unbalanced_tree_test.insert(0);
+
+        assert_eq!(unbalanced_tree_base, unbalanced_tree_test);
     }
 
     #[test]
