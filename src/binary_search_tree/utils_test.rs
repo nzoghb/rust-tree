@@ -21,8 +21,8 @@ macro_rules! setup_test {
 //TODO: `struct is never constructed` warning
 pub struct Utils {
     pub root_base: Node<i32>,
-    pub unbalanced_tree_base: Node<i32>,
     pub balanced_tree_base: Node<i32>,
+    pub unbalanced_tree_base: Node<i32>,
     pub vec_base: Vec<i32>,
 }
 
@@ -30,15 +30,18 @@ impl Utils {
     pub fn new() -> Self {
         Self {
             root_base: Node { value: 50, ..Default::default() },
-            unbalanced_tree_base: Node {
-                value: 50,
-                left: Some(Box::new(Node { value: 25, ..Default::default() })),
-                right: None,
-            },
             balanced_tree_base: Node {
                 value: 50,
                 left: Some(Box::new(Node { value: 25, ..Default::default() })),
                 right: Some(Box::new(Node { value: 75, ..Default::default() })),
+            },
+            unbalanced_tree_base: Node {
+                value: 50,
+                left: Some(Box::new(Node {
+                    value: 25,
+                    left: Some(Box::new(Node { value: 0, ..Default::default() })),
+                    ..Default::default() })),
+                right: None,
             },
             vec_base: vec![25, 50, 75],
         }
