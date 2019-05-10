@@ -58,36 +58,17 @@ impl<T> Node<T> {
 
 #[cfg(test)]
 mod test {
-    use super::Node;
-
-    struct Utils {
-        tree_base: Node<i32>,
-        vec_base: Vec<&'static i32>,
-    }
-
-    impl Utils {
-        fn new() -> Self {
-            Self {
-                tree_base: Node {
-                    value: 50,
-                    left: Some(Box::new(Node { value: 25, ..Default::default() })),
-                    right: Some(Box::new(Node { value: 75, ..Default::default() })),
-                },
-                vec_base: vec![&25, &50, &75],
-            }
-        }
-    }
+    use setup_test;
 
     #[test]
     fn test_iter() {
-        let setup = Utils::new();
-        let tree_base = setup.tree_base;
-        let tree_test = tree_base.clone();
-        let vec_base = setup.vec_base;
+        setup_test!(,balanced_tree_base,,vec_base);
+        let tree_test = balanced_tree_base.clone();
         let vec_test = tree_test.iter().collect::<Vec<&i32>>();
+        let vec_ref_base = vec_base.iter().collect::<Vec<&i32>>();
 
-        assert_eq!(vec_base, vec_test);
+        assert_eq!(vec_ref_base, vec_test);
         // `tree_test` hasn't moved!
-        assert_eq!(tree_base, tree_test);
+        assert_eq!(balanced_tree_base, tree_test);
     }
 }

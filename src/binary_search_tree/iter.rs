@@ -65,32 +65,12 @@ where
 
 #[cfg(test)]
 mod test {
-    use super::Node;
-
-    struct Utils {
-        tree_base: Node<i32>,
-        vec_base: Vec<i32>,
-    }
-
-    impl Utils {
-        fn new() -> Self {
-            Self {
-                tree_base: Node {
-                    value: 50,
-                    left: Some(Box::new(Node { value: 25, ..Default::default() })),
-                    right: Some(Box::new(Node { value: 75, ..Default::default() })),
-                },
-                vec_base: vec![25, 50, 75],
-            }
-        }
-    }
+    use setup_test;
 
     #[test]
     fn test_iter() {
-        let setup = Utils::new();
-        let tree_base = setup.tree_base;
-        let vec_base = setup.vec_base;
-        let vec_test = tree_base.into_iter().collect::<Vec<i32>>();
+        setup_test!(,balanced_tree_base,,vec_base);
+        let vec_test = balanced_tree_base.into_iter().collect::<Vec<i32>>();
 
         assert_eq!(vec_base, vec_test);
     }
